@@ -16,16 +16,21 @@ if [ -z ${SOCKEYE+x} ]; then
   echo "No tokenizer is initialized. Source ENV.sh first";
 fi
 
-PYTHONPATH=$SOCKEYE python3 $SOCKEYE/sockeye/train.py \
+#  --checkpoint-frequency 100 \
+
+
+PYTHONPATH=$SOCKEYE python -m sockeye.train \
   --source data/multi30k/train-toy.$1.atok \
   --target data/multi30k/train-toy.$2.atok \
   --validation-source data/multi30k/val.$1.atok \
   --validation-target data/multi30k/val.$2.atok \
+  --mono-source data/multi30k/train.$1.atok \
+  --mono-target data/multi30k/train.$2.atok \
+  --lm-pretrain-layers 1 \
   --word-min-count 2 \
   --rnn-num-layers 1 \
   --rnn-cell-type gru \
   --rnn-num-hidden 64 \
-  --lm-pretrain-layers 1 \
   --num-embed-source 64 \
   --num-embed-target 64 \
   --attention-type mlp \
